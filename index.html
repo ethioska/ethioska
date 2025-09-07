@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleGroup Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e4158 0%, #0e2439 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(19, 28, 46, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2481cc;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+            color: #2481cc;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .balance-container {
+            padding: 15px 20px;
+            background: rgba(36, 129, 204, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .balance-title {
+            font-size: 16px;
+        }
+        
+        .balance-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4caf50;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background: rgba(36, 129, 204, 0.2);
+            border-bottom: 2px solid #2481cc;
+        }
+        
+        .content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .group-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .group-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .group-price {
+            color: #ff9800;
+            font-weight: 700;
+        }
+        
+        .group-details {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .group-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .btn {
+            background: #2481cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 8px;
+        }
+        
+        .btn:hover {
+            background: #1c6ba0;
+        }
+        
+        .btn-buy {
+            background: #4caf50;
+        }
+        
+        .btn-buy:hover {
+            background: #3d8b40;
+        }
+        
+        .referral-code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .code {
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-weight: 600;
+            color: #ff9800;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            flex: 1;
+            margin: 0 5px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 12px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .tab {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <h1>TeleGroup Marketplace</h1>
+            <div class="subtitle">Buy & Sell Telegram Groups • Since 2022</div>
+        </div>
+        
+        <div class="balance-container">
+            <div class="balance-title">Your Balance:</div>
+            <div class="balance-amount">$<span id="balance">1,250</span></div>
+        </div>
+        
+        <div class="nav-tabs">
+            <div class="tab active" data-tab="marketplace">Marketplace</div>
+            <div class="tab" data-tab="invite">Invite & Earn</div>
+            <div class="tab" data-tab="my-groups">My Groups</div>
+        </div>
+        
+        <div class="content">
+            <div class="section active" id="marketplace-section">
+                <h2>Available Groups</h2>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">Crypto Traders 2023</div>
+                        <div class="group-price">$499</div>
+                    </div>
+                    <div class="group-details">
+                        Active crypto trading group with 12.8K members. High engagement rate.
+                    </div>
+                    <div class="group-meta">
+                        <div>Members: 12,800</div>
+                        <div>Created: Feb 2023</div>
+                    </div>
+                    <button class="btn btn-buy" onclick="buyGroup('Crypto Traders 2023', 499)">Buy Group</button>
+                </div>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">NFT Investors</div>
+                        <div class="group-price">$350</div>
+                    </div>
+                    <div class="group-details">
+                        NFT discussion and investment group. 8.4K members with daily activity.
+                    </div>
+                    <div class="group-meta">
+                        <div>Members: 8,400</div>
+                        <div>Created: Nov 2022</div>
+                    </div>
+                    <button class="btn btn-buy" onclick="buyGroup('NFT Investors', 350)">Buy Group</button>
+                </div>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">Tech News EN</div>
+                        <div class="group-price">$299</div>
+                    </div>
+                    <div class="group-details">
+                        Technology news channel with 15.2K subscribers. Established in 2022.
+                    </div>
+                    <div class="group-meta">
+                        <div>Members: 15,200</div>
+                        <div>Created: Mar 2022</div>
+                    </div>
+                    <button class="btn btn-buy" onclick="buyGroup('Tech News EN', 299)">Buy Group</button>
+                </div>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">Stock Market Signals</div>
+                        <div class="group-price">$599</div>
+                    </div>
+                    <div class="group-details">
+                        Premium stock trading signals group with 5.1K active traders.
+                    </div>
+                    <div class="group-meta">
+                        <div>Members: 5,100</div>
+                        <div>Created: Jun 2023</div>
+                    </div>
+                    <button class="btn btn-buy" onclick="buyGroup('Stock Market Signals', 599)">Buy Group</button>
+                </div>
+            </div>
+            
+            <div class="section" id="invite-section">
+                <h2>Invite & Earn</h2>
+                
+                <div class="referral-code">
+                    <p>Share your referral code with friends</p>
+                    <div class="code">TG2024-INVITE-58932</div>
+                    <p>Earn 10% commission on their first purchase</p>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="invites-count">18</div>
+                        <div class="stat-label">Invites Sent</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="earned-amount">$225</div>
+                        <div class="stat-label">Earned</div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="copyReferralCode()">Copy Referral Link</button>
+            </div>
+            
+            <div class="section" id="my-groups-section">
+                <h2>My Purchased Groups</h2>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">Web3 Developers</div>
+                        <div class="group-price">Acquired</div>
+                    </div>
+                    <div class="group-details">
+                        Web3 and blockchain development group with 6.3K members.
+                    </div>
+                    <div class="group-meta">
+                        <div>Purchased: 3 months ago</div>
+                        <div>Revenue: $120/mo</div>
+                    </div>
+                </div>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">AI News & Tools</div>
+                        <div class="group-price">Acquired</div>
+                    </div>
+                    <div class="group-details">
+                        Artificial intelligence news and tools discussion group.
+                    </div>
+                    <div class="group-meta">
+                        <div>Purchased: 1 month ago</div>
+                        <div>Revenue: $85/mo</div>
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Groups Owned</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">$205</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">Operation completed successfully!</div>
+
+    <script>
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.tab');
+        const sections = document.querySelectorAll('.section');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding section
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === `${targetTab}-section`) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Balance and purchase functionality
+        let balance = 1250;
+        
+        function buyGroup(groupName, price) {
+            if (balance >= price) {
+                balance -= price;
+                document.getElementById('balance').textContent = formatNumber(balance);
+                showNotification(`Successfully purchased ${groupName} for $${price}`);
+            } else {
+                showNotification(`Insufficient funds to purchase ${groupName}`);
+            }
+        }
+        
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        function copyReferralCode() {
+            navigator.clipboard.writeText("https://t.me/TelegroupMarketBot?start=ref-58932");
+            showNotification("Referral link copied to clipboard!");
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
