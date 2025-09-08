@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeleGroup Marketplace</title>
+    <title>TeleGroup Seller Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -17,18 +17,11 @@
             background: linear-gradient(135deg, #1e4158 0%, #0e2439 100%);
             color: #fff;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
         
         .container {
-            width: 100%;
-            max-width: 400px;
+            max-width: 100%;
             background: rgba(19, 28, 46, 0.95);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             overflow: hidden;
         }
         
@@ -36,7 +29,9 @@
             background: #2481cc;
             padding: 20px;
             text-align: center;
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .logo {
@@ -66,37 +61,44 @@
             opacity: 0.9;
         }
         
-        .balance-container {
-            padding: 15px 20px;
-            background: rgba(36, 129, 204, 0.15);
+        .stats-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 10px;
+            background: rgba(36, 129, 204, 0.15);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .balance-title {
-            font-size: 16px;
+        .stat-box {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
         }
         
-        .balance-amount {
-            font-size: 20px;
+        .stat-value {
+            font-size: 18px;
             font-weight: 700;
             color: #4caf50;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
         }
         
         .nav-tabs {
             display: flex;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+            white-space: nowrap;
         }
         
         .tab {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
+            padding: 15px 20px;
             cursor: pointer;
             transition: background 0.3s;
             font-weight: 500;
+            text-align: center;
+            flex: 1;
         }
         
         .tab.active {
@@ -105,8 +107,8 @@
         }
         
         .content {
-            padding: 20px;
-            max-height: 400px;
+            padding: 15px;
+            max-height: calc(100vh - 280px);
             overflow-y: auto;
         }
         
@@ -161,7 +163,7 @@
             background: #2481cc;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
@@ -174,57 +176,12 @@
             background: #1c6ba0;
         }
         
-        .btn-buy {
+        .btn-sold {
             background: #4caf50;
         }
         
-        .btn-buy:hover {
+        .btn-sold:hover {
             background: #3d8b40;
-        }
-        
-        .referral-code {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .code {
-            font-size: 18px;
-            letter-spacing: 2px;
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            font-weight: 600;
-            color: #ff9800;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        
-        .stat-box {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            flex: 1;
-            margin: 0 5px;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.8;
         }
         
         .notification {
@@ -240,24 +197,89 @@
             opacity: 0;
             transition: opacity 0.3s;
             z-index: 1000;
+            max-width: 80%;
+            text-align: center;
         }
         
         .notification.show {
             opacity: 1;
         }
         
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .control-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #ff9800;
+        }
+        
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            background: #2481cc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            flex: 1;
+        }
+        
+        .control-btn:hover {
+            background: #1c6ba0;
+        }
+        
+        .pending-transaction {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #ff9800;
+        }
+        
+        .buyer-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
         @media (max-width: 480px) {
-            .container {
-                border-radius: 12px;
-            }
-            
-            h1 {
-                font-size: 20px;
-            }
-            
             .tab {
-                padding: 12px;
+                padding: 12px 15px;
                 font-size: 14px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -268,29 +290,40 @@
             <div class="logo">
                 <i class="fab fa-telegram"></i>
             </div>
-            <h1>TeleGroup Marketplace</h1>
-            <div class="subtitle">Buy & Sell Telegram Groups • Since 2022</div>
+            <h1>Seller Dashboard</h1>
+            <div class="subtitle">Manage Groups • ETB Only • Manual Control</div>
         </div>
         
-        <div class="balance-container">
-            <div class="balance-title">Your Balance:</div>
-            <div class="balance-amount">$<span id="balance">1,250</span></div>
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-value">5,420 ETB</div>
+                <div class="stat-label">Total Revenue</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Groups Sold</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Pending</div>
+            </div>
         </div>
         
         <div class="nav-tabs">
-            <div class="tab active" data-tab="marketplace">Marketplace</div>
-            <div class="tab" data-tab="invite">Invite & Earn</div>
-            <div class="tab" data-tab="my-groups">My Groups</div>
+            <div class="tab active" data-tab="marketplace">My Groups</div>
+            <div class="tab" data-tab="pending">Pending Sales</div>
+            <div class="tab" data-tab="sold">Sold Groups</div>
+            <div class="tab" data-tab="add">Add New</div>
         </div>
         
         <div class="content">
             <div class="section active" id="marketplace-section">
-                <h2>Available Groups</h2>
+                <h2>My Available Groups</h2>
                 
                 <div class="group-card">
                     <div class="group-header">
                         <div class="group-name">Crypto Traders 2023</div>
-                        <div class="group-price">$499</div>
+                        <div class="group-price">2,500 ETB</div>
                     </div>
                     <div class="group-details">
                         Active crypto trading group with 12.8K members. High engagement rate.
@@ -299,13 +332,13 @@
                         <div>Members: 12,800</div>
                         <div>Created: Feb 2023</div>
                     </div>
-                    <button class="btn btn-buy" onclick="buyGroup('Crypto Traders 2023', 499)">Buy Group</button>
+                    <button class="btn" onclick="markAsPending('Crypto Traders 2023')">Mark as Pending Sale</button>
                 </div>
                 
                 <div class="group-card">
                     <div class="group-header">
                         <div class="group-name">NFT Investors</div>
-                        <div class="group-price">$350</div>
+                        <div class="group-price">1,800 ETB</div>
                     </div>
                     <div class="group-details">
                         NFT discussion and investment group. 8.4K members with daily activity.
@@ -314,13 +347,13 @@
                         <div>Members: 8,400</div>
                         <div>Created: Nov 2022</div>
                     </div>
-                    <button class="btn btn-buy" onclick="buyGroup('NFT Investors', 350)">Buy Group</button>
+                    <button class="btn" onclick="markAsPending('NFT Investors')">Mark as Pending Sale</button>
                 </div>
                 
                 <div class="group-card">
                     <div class="group-header">
                         <div class="group-name">Tech News EN</div>
-                        <div class="group-price">$299</div>
+                        <div class="group-price">1,500 ETB</div>
                     </div>
                     <div class="group-details">
                         Technology news channel with 15.2K subscribers. Established in 2022.
@@ -329,88 +362,111 @@
                         <div>Members: 15,200</div>
                         <div>Created: Mar 2022</div>
                     </div>
-                    <button class="btn btn-buy" onclick="buyGroup('Tech News EN', 299)">Buy Group</button>
+                    <button class="btn" onclick="markAsPending('Tech News EN')">Mark as Pending Sale</button>
                 </div>
+            </div>
+            
+            <div class="section" id="pending-section">
+                <h2>Pending Sales</h2>
                 
-                <div class="group-card">
+                <div class="group-card pending-transaction">
                     <div class="group-header">
                         <div class="group-name">Stock Market Signals</div>
-                        <div class="group-price">$599</div>
+                        <div class="group-price">3,000 ETB</div>
                     </div>
                     <div class="group-details">
                         Premium stock trading signals group with 5.1K active traders.
                     </div>
-                    <div class="group-meta">
-                        <div>Members: 5,100</div>
-                        <div>Created: Jun 2023</div>
+                    <div class="buyer-info">
+                        <strong>Buyer:</strong> @ethio_trader<br>
+                        <strong>Telegram:</strong> <a href="https://t.me/ethio_trader" style="color: #4caf50;">Contact Buyer</a><br>
+                        <strong>Status:</strong> Awaiting Payment
                     </div>
-                    <button class="btn btn-buy" onclick="buyGroup('Stock Market Signals', 599)">Buy Group</button>
+                    <div class="control-buttons">
+                        <button class="btn btn-sold" onclick="markAsSold('Stock Market Signals')">Mark as Paid & Sold</button>
+                        <button class="btn" onclick="cancelSale('Stock Market Signals')">Cancel Sale</button>
+                    </div>
+                </div>
+                
+                <div class="group-card pending-transaction">
+                    <div class="group-header">
+                        <div class="group-name">Amharic Memes</div>
+                        <div class="group-price">1,200 ETB</div>
+                    </div>
+                    <div class="group-details">
+                        Popular Amharic meme channel with 25.4K subscribers.
+                    </div>
+                    <div class="buyer-info">
+                        <strong>Buyer:</strong> @addis_funny<br>
+                        <strong>Telegram:</strong> <a href="https://t.me/addis_funny" style="color: #4caf50;">Contact Buyer</a><br>
+                        <strong>Status:</strong> Payment Received
+                    </div>
+                    <div class="control-buttons">
+                        <button class="btn btn-sold" onclick="markAsSold('Amharic Memes')">Transfer Ownership</button>
+                        <button class="btn" onclick="cancelSale('Amharic Memes')">Cancel Sale</button>
+                    </div>
                 </div>
             </div>
             
-            <div class="section" id="invite-section">
-                <h2>Invite & Earn</h2>
-                
-                <div class="referral-code">
-                    <p>Share your referral code with friends</p>
-                    <div class="code">TG2024-INVITE-58932</div>
-                    <p>Earn 10% commission on their first purchase</p>
-                </div>
-                
-                <div class="stats">
-                    <div class="stat-box">
-                        <div class="stat-value" id="invites-count">18</div>
-                        <div class="stat-label">Invites Sent</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="earned-amount">$225</div>
-                        <div class="stat-label">Earned</div>
-                    </div>
-                </div>
-                
-                <button class="btn" onclick="copyReferralCode()">Copy Referral Link</button>
-            </div>
-            
-            <div class="section" id="my-groups-section">
-                <h2>My Purchased Groups</h2>
+            <div class="section" id="sold-section">
+                <h2>Sold Groups</h2>
                 
                 <div class="group-card">
                     <div class="group-header">
                         <div class="group-name">Web3 Developers</div>
-                        <div class="group-price">Acquired</div>
+                        <div class="group-price">2,200 ETB</div>
                     </div>
                     <div class="group-details">
                         Web3 and blockchain development group with 6.3K members.
                     </div>
                     <div class="group-meta">
-                        <div>Purchased: 3 months ago</div>
-                        <div>Revenue: $120/mo</div>
+                        <div>Sold on: 15 Aug 2023</div>
+                        <div>Buyer: @ethio_blockchain</div>
                     </div>
                 </div>
                 
                 <div class="group-card">
                     <div class="group-header">
                         <div class="group-name">AI News & Tools</div>
-                        <div class="group-price">Acquired</div>
+                        <div class="group-price">1,800 ETB</div>
                     </div>
                     <div class="group-details">
                         Artificial intelligence news and tools discussion group.
                     </div>
                     <div class="group-meta">
-                        <div>Purchased: 1 month ago</div>
-                        <div>Revenue: $85/mo</div>
+                        <div>Sold on: 5 Sep 2023</div>
+                        <div>Buyer: @addis_tech</div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="section" id="add-section">
+                <h2>Add New Group</h2>
                 
-                <div class="stats">
-                    <div class="stat-box">
-                        <div class="stat-value">2</div>
-                        <div class="stat-label">Groups Owned</div>
+                <div class="control-panel">
+                    <div class="control-title">Add a New Telegram Group</div>
+                    
+                    <div class="form-group">
+                        <label for="group-name">Group Name</label>
+                        <input type="text" id="group-name" placeholder="Enter group name">
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-value">$205</div>
-                        <div class="stat-label">Monthly Revenue</div>
+                    
+                    <div class="form-group">
+                        <label for="group-price">Price (ETB)</label>
+                        <input type="number" id="group-price" placeholder="Enter price in ETB">
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="group-members">Number of Members</label>
+                        <input type="number" id="group-members" placeholder="Enter member count">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="group-desc">Description</label>
+                        <input type="text" id="group-desc" placeholder="Enter group description">
+                    </div>
+                    
+                    <button class="btn btn-sold" onclick="addNewGroup()">Add Group to Marketplace</button>
                 </div>
             </div>
         </div>
@@ -441,26 +497,33 @@
             });
         });
         
-        // Balance and purchase functionality
-        let balance = 1250;
+        function markAsPending(groupName) {
+            showNotification(`Marked ${groupName} as pending sale. Buyers will contact you on Telegram.`);
+        }
         
-        function buyGroup(groupName, price) {
-            if (balance >= price) {
-                balance -= price;
-                document.getElementById('balance').textContent = formatNumber(balance);
-                showNotification(`Successfully purchased ${groupName} for $${price}`);
+        function markAsSold(groupName) {
+            showNotification(`${groupName} marked as sold. Ownership transferred.`);
+        }
+        
+        function cancelSale(groupName) {
+            showNotification(`Sale of ${groupName} has been cancelled.`);
+        }
+        
+        function addNewGroup() {
+            const name = document.getElementById('group-name').value;
+            const price = document.getElementById('group-price').value;
+            
+            if (name && price) {
+                showNotification(`Added ${name} for ${price} ETB to your marketplace`);
+                
+                // Clear form
+                document.getElementById('group-name').value = '';
+                document.getElementById('group-price').value = '';
+                document.getElementById('group-members').value = '';
+                document.getElementById('group-desc').value = '';
             } else {
-                showNotification(`Insufficient funds to purchase ${groupName}`);
+                showNotification('Please fill in all required fields');
             }
-        }
-        
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-        
-        function copyReferralCode() {
-            navigator.clipboard.writeText("https://t.me/TelegroupMarketBot?start=ref-58932");
-            showNotification("Referral link copied to clipboard!");
         }
         
         function showNotification(message) {
@@ -472,6 +535,16 @@
                 notification.classList.remove('show');
             }, 3000);
         }
+        
+        // Simulate connection to your Telegram bot
+        function connectToBot() {
+            showNotification("Connected to your Telegram bot. You will receive notifications of new buyers.");
+        }
+        
+        // Auto-connect to bot when page loads
+        window.onload = function() {
+            connectToBot();
+        };
     </script>
 </body>
 </html>
