@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction Records - TeleGroup Marketplace</title>
+    <title>TeleGroup Marketplace - Complete Transaction Flow</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -47,21 +47,38 @@
             position: relative;
         }
         
-        .logo {
-            width: 70px;
-            height: 70px;
-            background: #fff;
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .admin-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-right: 15px;
+            font-size: 24px;
         }
         
-        .logo i {
-            font-size: 32px;
-            color: #2481cc;
+        .admin-info {
+            text-align: left;
+        }
+        
+        .admin-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .admin-id {
+            font-size: 12px;
+            opacity: 0.9;
         }
         
         h1 {
@@ -122,7 +139,7 @@
         
         .content {
             padding: 20px;
-            max-height: calc(100vh - 300px);
+            max-height: calc(100vh - 350px);
             overflow-y: auto;
         }
         
@@ -132,6 +149,276 @@
         
         .section.active {
             display: block;
+        }
+        
+        .group-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .group-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .group-name {
+            font-weight: 600;
+            font-size: 17px;
+        }
+        
+        .group-price {
+            color: #ff9800;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .group-details {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+        
+        .group-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            background: #2481cc;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 8px;
+            font-size: 15px;
+        }
+        
+        .btn:hover {
+            background: #1c6ba0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-sold {
+            background: #4caf50;
+        }
+        
+        .btn-sold:hover {
+            background: #3d8b40;
+        }
+        
+        .btn-edit {
+            background: #ff9800;
+        }
+        
+        .btn-edit:hover {
+            background: #e68900;
+        }
+        
+        .btn-delete {
+            background: #f44336;
+        }
+        
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+        
+        .btn-wait {
+            background: #9c27b0;
+        }
+        
+        .btn-wait:hover {
+            background: #7b1fa2;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4caf50;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            max-width: 80%;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .panel-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #ff9800;
+            font-size: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 15px;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .pending-transaction {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #ff9800;
+        }
+        
+        .buyer-info {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .buyer-info a {
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .control-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #3d8b40;
+        }
+        
+        .btn-warning {
+            background: #ff9800;
+            color: black;
+        }
+        
+        .btn-warning:hover {
+            background: #e68900;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+        
+        .transaction-status {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        .status-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .status-step:not(:last-child):after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+        
+        .status-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .status-active .status-icon {
+            background: #4caf50;
+        }
+        
+        .status-label {
+            font-size: 12px;
         }
         
         .upload-area {
@@ -236,85 +523,36 @@
             display: inline-block;
         }
         
-        .form-group {
-            margin-bottom: 18px;
+        .comments-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: 500;
+        .comment {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
         }
         
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.2);
-            color: white;
-            font-size: 15px;
-        }
-        
-        .btn {
-            background: #2481cc;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            width: 100%;
-            margin-top: 8px;
-            font-size: 15px;
-        }
-        
-        .btn:hover {
-            background: #1c6ba0;
-        }
-        
-        .btn-save {
-            background: #4caf50;
-        }
-        
-        .btn-save:hover {
-            background: #3d8b40;
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #4caf50;
-            color: white;
-            padding: 14px 24px;
-            border-radius: 10px;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1000;
-            max-width: 80%;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        .notification.show {
-            opacity: 1;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px;
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
             opacity: 0.7;
         }
         
-        .empty-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            color: #2481cc;
+        .comment-text {
+            font-size: 14px;
+        }
+        
+        .reaction {
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
         }
         
         @media (max-width: 480px) {
@@ -322,6 +560,10 @@
                 padding: 14px 16px;
                 font-size: 14px;
                 min-width: 100px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
             }
             
             .admin-stats {
@@ -333,6 +575,16 @@
                 padding: 8px;
             }
             
+            .admin-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .admin-avatar {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
             .detail-row {
                 flex-direction: column;
                 margin-bottom: 12px;
@@ -342,6 +594,19 @@
                 width: 100%;
                 margin-bottom: 3px;
             }
+            
+            .status-step:not(:last-child):after {
+                display: none;
+            }
+            
+            .transaction-status {
+                flex-wrap: wrap;
+            }
+            
+            .status-step {
+                flex: 0 0 33.33%;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -350,11 +615,17 @@
     
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <i class="fab fa-telegram"></i>
+            <div class="admin-profile">
+                <div class="admin-avatar">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">❥⏤͟𓆩〭⃛〬𝐈𝛕ᷟ͢𝚣⃪ꙴ𝆺꯭𝅥𝆺꯭𝅥༎ࠫs̷e̷i̷d̷ k̷e̷d̷i̷r̷༎꯭ࠫ𝆺꯭𝅥:🧸⃝⃪⃕.⃝⃡︎ ─⃜͢͢</div>
+                    <div class="admin-id">ID: 6726975094</div>
+                </div>
             </div>
-            <h1>Transaction Records</h1>
-            <div class="subtitle">Upload & Manage Payment Screenshots</div>
+            <h1>TeleGroup Marketplace</h1>
+            <div class="subtitle">Complete Transaction Flow • Admin Control</div>
         </div>
         
         <div class="admin-stats">
@@ -364,7 +635,7 @@
             </div>
             <div class="stat">
                 <div class="stat-value">18</div>
-                <div class="stat-label">Transactions</div>
+                <div class="stat-label">Groups Sold</div>
             </div>
             <div class="stat">
                 <div class="stat-value">5</div>
@@ -373,140 +644,298 @@
         </div>
         
         <div class="nav-tabs">
-            <div class="tab active" data-tab="upload">Upload</div>
-            <div class="tab" data-tab="transactions">Transactions</div>
+            <div class="tab active" data-tab="marketplace">Marketplace</div>
             <div class="tab" data-tab="pending">Pending</div>
+            <div class="tab" data-tab="transactions">Transactions</div>
+            <div class="tab" data-tab="instructions">Instructions</div>
         </div>
         
         <div class="content">
-            <div class="section active" id="upload-section">
-                <h2>Upload Transaction Screenshot</h2>
+            <!-- Marketplace Section -->
+            <div class="section active" id="marketplace-section">
+                <h2>Available Groups</h2>
                 
-                <div class="upload-area" id="upload-area">
-                    <div class="upload-icon">
-                        <i class="fas fa-cloud-upload-alt"></i>
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">Crypto Traders 2023</div>
+                        <div class="group-price">2,500 ETB</div>
                     </div>
-                    <div class="upload-text">Drag & Drop or Click to Upload</div>
-                    <div class="upload-subtext">Supported formats: JPG, PNG, GIF (Max 5MB)</div>
-                    <input type="file" id="file-input" accept="image/*">
-                </div>
-                
-                <div class="form-group">
-                    <label for="transaction-amount">Amount (ETB)</label>
-                    <input type="number" id="transaction-amount" placeholder="Enter amount in ETB">
-                </div>
-                
-                <div class="form-group">
-                    <label for="transaction-type">Transaction Type</label>
-                    <select id="transaction-type">
-                        <option value="transfer">Transfer Money</option>
-                        <option value="payment">Payment Received</option>
-                        <option value="withdrawal">Withdrawal</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="transaction-to">Transaction To/From</label>
-                    <input type="text" id="transaction-to" placeholder="Enter name">
-                </div>
-                
-                <div class="form-group">
-                    <label for="transaction-number">Transaction Number</label>
-                    <input type="text" id="transaction-number" placeholder="Enter transaction number">
-                </div>
-                
-                <div class="form-group">
-                    <label for="transaction-date">Transaction Date & Time</label>
-                    <input type="datetime-local" id="transaction-date">
-                </div>
-                
-                <button class="btn btn-save" onclick="saveTransaction()">Save Transaction</button>
-            </div>
-            
-            <div class="section" id="transactions-section">
-                <h2>Transaction History</h2>
-                
-                <div class="transaction-card">
-                    <div class="transaction-header">
-                        <div class="transaction-amount">-101.00 ETB</div>
-                        <div class="transaction-date">2025/09/07 13:39:14</div>
+                    <div class="group-details">
+                        Active crypto trading group with 12.8K members. High engagement rate.
                     </div>
-                    <div class="transaction-details">
-                        <div class="detail-row">
-                            <div class="detail-label">Type:</div>
-                            <div class="detail-value">Transfer Money</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">To:</div>
-                            <div class="detail-value">Seid</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Transaction #:</div>
-                            <div class="detail-value">CI7901CR8H</div>
-                        </div>
+                    <div class="group-meta">
+                        <div>Members: 12,800</div>
+                        <div>Created: Feb 2023</div>
+                        <div>Status: <span style="color: #4caf50;">Available</span></div>
                     </div>
-                    <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshot</button>
-                    <img src="https://via.placeholder.com/300x500/1a2e44/ffffff?text=Transaction+Screenshot" class="transaction-image" alt="Transaction screenshot">
+                    <button class="btn btn-wait" onclick="initiatePurchase('Crypto Traders 2023', 2500)">Please Wait For Me</button>
                 </div>
                 
-                <div class="transaction-card">
-                    <div class="transaction-header">
-                        <div class="transaction-amount">+1,500.00 ETB</div>
-                        <div class="transaction-date">2025/09/05 10:22:36</div>
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">NFT Investors</div>
+                        <div class="group-price">1,800 ETB</div>
                     </div>
-                    <div class="transaction-details">
-                        <div class="detail-row">
-                            <div class="detail-label">Type:</div>
-                            <div class="detail-value">Payment Received</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">From:</div>
-                            <div class="detail-value">@ethio_trader</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Transaction #:</div>
-                            <div class="detail-value">AB2345XY89</div>
-                        </div>
+                    <div class="group-details">
+                        NFT discussion and investment group. 8.4K members with daily activity.
                     </div>
-                    <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshot</button>
-                    <img src="https://via.placeholder.com/300x500/1a2e44/ffffff?text=Transaction+Screenshot" class="transaction-image" alt="Transaction screenshot">
+                    <div class="group-meta">
+                        <div>Members: 8,400</div>
+                        <div>Created: Nov 2022</div>
+                        <div>Status: <span style="color: #4caf50;">Available</span></div>
+                    </div>
+                    <button class="btn btn-wait" onclick="initiatePurchase('NFT Investors', 1800)">Please Wait For Me</button>
+                </div>
+                
+                <div class="group-card">
+                    <div class="group-header">
+                        <div class="group-name">Tech News EN</div>
+                        <div class="group-price">1,500 ETB</div>
+                    </div>
+                    <div class="group-details">
+                        Technology news channel with 15.2K subscribers. Established in 2022.
+                    </div>
+                    <div class="group-meta">
+                        <div>Members: 15,200</div>
+                        <div>Created: Mar 2022</div>
+                        <div>Status: <span style="color: #4caf50;">Available</span></div>
+                    </div>
+                    <button class="btn btn-wait" onclick="initiatePurchase('Tech News EN', 1500)">Please Wait For Me</button>
                 </div>
             </div>
             
+            <!-- Pending Transactions Section -->
             <div class="section" id="pending-section">
                 <h2>Pending Transactions</h2>
                 
-                <div class="transaction-card">
-                    <div class="transaction-header">
-                        <div class="transaction-amount">+2,500.00 ETB</div>
-                        <div class="transaction-date">Pending</div>
+                <div class="transaction-status">
+                    <div class="status-step status-active">
+                        <div class="status-icon"><i class="fas fa-handshake"></i></div>
+                        <div class="status-label">Agreement</div>
                     </div>
-                    <div class="transaction-details">
-                        <div class="detail-row">
-                            <div class="detail-label">Type:</div>
-                            <div class="detail-value">Payment Received</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">From:</div>
-                            <div class="detail-value">@addis_funny</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Status:</div>
-                            <div class="detail-value" style="color: #ff9800;">Awaiting Confirmation</div>
-                        </div>
+                    <div class="status-step">
+                        <div class="status-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <div class="status-label">Transfer</div>
                     </div>
-                    <div class="control-buttons">
-                        <button class="btn btn-save" style="margin-right: 10px;" onclick="confirmPayment(this)">Confirm Payment</button>
-                        <button class="btn" style="background: #f44336;" onclick="cancelTransaction(this)">Cancel</button>
+                    <div class="status-step">
+                        <div class="status-icon"><i class="fas fa-screenshot"></i></div>
+                        <div class="status-label">Screenshot</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="status-icon"><i class="fas fa-money-check"></i></div>
+                        <div class="status-label">Payment</div>
+                    </div>
+                    <div class="status-step">
+                        <div class="status-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="status-label">Complete</div>
                     </div>
                 </div>
                 
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-receipt"></i>
+                <div class="group-card pending-transaction">
+                    <div class="group-header">
+                        <div class="group-name">Stock Market Signals</div>
+                        <div class="group-price">3,000 ETB</div>
                     </div>
-                    <div>No other pending transactions</div>
+                    <div class="group-details">
+                        Premium stock trading signals group with 5.1K active traders.
+                    </div>
+                    <div class="buyer-info">
+                        <strong>Buyer:</strong> @ethio_trader<br>
+                        <strong>Telegram:</strong> <a href="https://t.me/ethio_trader">Contact Buyer</a><br>
+                        <strong>Status:</strong> Awaiting Ownership Transfer<br>
+                        <strong>Started:</strong> 2 days ago
+                    </div>
+                    
+                    <div class="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="upload-text">Upload Ownership Transfer Screenshot</div>
+                        <div class="upload-subtext">Show proof of group transfer</div>
+                        <input type="file" id="transfer-screenshot" accept="image/*">
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button class="control-btn btn-success" onclick="confirmTransfer('Stock Market Signals')">Confirm Transfer</button>
+                        <button class="control-btn btn-warning" onclick="messageBuyer('Stock Market Signals')">Message Buyer</button>
+                        <button class="control-btn btn-danger" onclick="cancelTransaction('Stock Market Signals')">Cancel Transaction</button>
+                    </div>
+                </div>
+                
+                <div class="group-card pending-transaction">
+                    <div class="group-header">
+                        <div class="group-name">Amharic Memes</div>
+                        <div class="group-price">1,200 ETB</div>
+                    </div>
+                    <div class="group-details">
+                        Popular Amharic meme channel with 25.4K subscribers.
+                    </div>
+                    <div class="buyer-info">
+                        <strong>Buyer:</strong> @addis_funny<br>
+                        <strong>Telegram:</strong> <a href="https://t.me/addis_funny">Contact Buyer</a><br>
+                        <strong>Status:</strong> Awaiting Payment<br>
+                        <strong>Payment Info:</strong> +251 912 345 678
+                    </div>
+                    
+                    <div class="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-money-check"></i>
+                        </div>
+                        <div class="upload-text">Upload Payment Screenshot</div>
+                        <div class="upload-subtext">Show proof of payment to seller</div>
+                        <input type="file" id="payment-screenshot" accept="image/*">
+                    </div>
+                    
+                    <div class="control-buttons">
+                        <button class="control-btn btn-success" onclick="confirmPayment('Amharic Memes')">Confirm Payment</button>
+                        <button class="control-btn btn-warning" onclick="messageSeller('Amharic Memes')">Message Seller</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Completed Transactions Section -->
+            <div class="section" id="transactions-section">
+                <h2>Completed Transactions</h2>
+                
+                <div class="transaction-card">
+                    <div class="transaction-header">
+                        <div class="transaction-amount">+2,500 ETB</div>
+                        <div class="transaction-date">2025/09/10 14:22:36</div>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="detail-row">
+                            <div class="detail-label">Group:</div>
+                            <div class="detail-value">Crypto Traders 2023</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Buyer:</div>
+                            <div class="detail-value">@ethio_blockchain</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Status:</div>
+                            <div class="detail-value" style="color: #4caf50;">Completed</div>
+                        </div>
+                    </div>
+                    <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshots</button>
+                    <img src="https://via.placeholder.com/300x500/1a2e44/ffffff?text=Transaction+Screenshot" class="transaction-image" alt="Transaction screenshot">
+                    
+                    <div class="comments-section">
+                        <h4>Seller Feedback</h4>
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span>@ethio_blockchain</span>
+                                <span>2 days ago</span>
+                            </div>
+                            <div class="comment-text">
+                                Smooth transaction, received payment quickly! 👍
+                            </div>
+                            <div class="reaction">✅</div>
+                            <div class="reaction">❤️</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea placeholder="Add a comment..."></textarea>
+                            <button class="btn" style="margin-top: 10px;">Post Comment</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transaction-card">
+                    <div class="transaction-header">
+                        <div class="transaction-amount">+1,800 ETB</div>
+                        <div class="transaction-date">2025/09/08 11:15:20</div>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="detail-row">
+                            <div class="detail-label">Group:</div>
+                            <div class="detail-value">NFT Investors</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Buyer:</div>
+                            <div class="detail-value">@addis_nft</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Status:</div>
+                            <div class="detail-value" style="color: #4caf50;">Completed</div>
+                        </div>
+                    </div>
+                    <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshots</button>
+                    <img src="https://via.placeholder.com/300x500/1a2e44/ffffff?text=Transaction+Screenshot" class="transaction-image" alt="Transaction screenshot">
+                    
+                    <div class="comments-section">
+                        <h4>Seller Feedback</h4>
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span>@addis_nft</span>
+                                <span>4 days ago</span>
+                            </div>
+                            <div class="comment-text">
+                                Great service, would buy again! The group is exactly as described.
+                            </div>
+                            <div class="reaction">✅</div>
+                            <div class="reaction">🔥</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea placeholder="Add a comment..."></textarea>
+                            <button class="btn" style="margin-top: 10px;">Post Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instructions Section -->
+            <div class="section" id="instructions-section">
+                <h2>Transaction Instructions</h2>
+                
+                <div class="admin-panel">
+                    <div class="panel-title">Complete Transaction Flow</div>
+                    
+                    <div class="group-details">
+                        <ol style="padding-left: 20px; margin-bottom: 20px;">
+                            <li style="margin-bottom: 15px;">
+                                <strong>Agreement:</strong> Buyer clicks "Please Wait For Me" to agree to purchase at the listed price.
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Transfer:</strong> Buyer transfers group ownership using admin's username (@yourusername) or provided username.
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Screenshot:</strong> Buyer takes screenshot of successful transfer and sends it via this mini app.
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Verification:</strong> Admin verifies the ownership transfer and group details.
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Payment:</strong> Admin sends payment to seller via provided phone number or bank account.
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Confirmation:</strong> Admin posts payment screenshot in the transaction thread.
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Completion:</strong> Seller reacts to the post and confirms receipt of payment.
+                            </li>
+                        </ol>
+                        
+                        <div class="buyer-info">
+                            <strong>Admin Username:</strong> @goldpandaSupport<br>
+                            <strong>Admin ID:</strong> 6726975094<br>
+                            <strong>Payment Methods:</strong> Telebirr, Bank Transfer, CBE Birr
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-panel">
+                    <div class="panel-title">Screenshot Guidelines</div>
+                    
+                    <div class="group-details">
+                        <ul style="padding-left: 20px;">
+                            <li>Screenshots must clearly show the transfer confirmation</li>
+                            <li>Include both sender and receiver information in the screenshot</li>
+                            <li>Payment screenshots must show transaction ID and amount</li>
+                            <li>Blur or hide any sensitive personal information</li>
+                            <li>Ensure the screenshot is clear and readable</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -538,39 +967,42 @@
         });
         
         // File upload functionality
-        const uploadArea = document.getElementById('upload-area');
-        const fileInput = document.getElementById('file-input');
+        const uploadAreas = document.querySelectorAll('.upload-area');
         
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.style.background = rgba(255, 255, 255, 0.1);
-            uploadArea.style.borderColor = '#2481cc';
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.style.background = rgba(255, 255, 255, 0.05);
-            uploadArea.style.borderColor = rgba(255, 255, 255, 0.2);
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.style.background = rgba(255, 255, 255, 0.05);
-            uploadArea.style.borderColor = rgba(255, 255, 255, 0.2);
+        uploadAreas.forEach(area => {
+            const fileInput = area.querySelector('input[type="file"]');
             
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                showNotification('Screenshot uploaded successfully!');
-            }
-        });
-        
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length) {
-                showNotification('Screenshot uploaded successfully!');
-            }
+            area.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.style.background = 'rgba(255, 255, 255, 0.1)';
+                area.style.borderColor = '#2481cc';
+            });
+            
+            area.addEventListener('dragleave', () => {
+                area.style.background = 'rgba(255, 255, 255, 0.05)';
+                area.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            });
+            
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.style.background = 'rgba(255, 255, 255, 0.05)';
+                area.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    showNotification('Screenshot uploaded successfully!');
+                }
+            });
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) {
+                    showNotification('Screenshot uploaded successfully!');
+                }
+            });
         });
         
         function viewScreenshot(button) {
@@ -584,47 +1016,33 @@
             }
         }
         
-        function saveTransaction() {
-            const amount = document.getElementById('transaction-amount').value;
-            const type = document.getElementById('transaction-type').value;
-            const toFrom = document.getElementById('transaction-to').value;
-            const number = document.getElementById('transaction-number').value;
-            const date = document.getElementById('transaction-date').value;
+        function initiatePurchase(groupName, price) {
+            showNotification(`Initiating purchase of ${groupName} for ${price} ETB. Please transfer ownership to @goldpandaSupport`);
             
-            if (amount && toFrom && number) {
-                showNotification('Transaction saved successfully!');
-                
-                // Clear form
-                document.getElementById('transaction-amount').value = '';
-                document.getElementById('transaction-to').value = '';
-                document.getElementById('transaction-number').value = '';
-                document.getElementById('transaction-date').value = '';
-                fileInput.value = '';
-            } else {
-                showNotification('Please fill in all required fields');
+            // Switch to pending tab
+            document.querySelector('[data-tab="pending"]').click();
+        }
+        
+        function confirmTransfer(groupName) {
+            showNotification(`Ownership of ${groupName} confirmed. Please proceed with payment to seller.`);
+        }
+        
+        function confirmPayment(groupName) {
+            showNotification(`Payment for ${groupName} confirmed. Transaction completed successfully!`);
+        }
+        
+        function messageBuyer(groupName) {
+            showNotification(`Prepare to message buyer of ${groupName} on Telegram.`);
+        }
+        
+        function messageSeller(groupName) {
+            showNotification(`Prepare to message seller of ${groupName} on Telegram.`);
+        }
+        
+        function cancelTransaction(groupName) {
+            if (confirm(`Are you sure you want to cancel the transaction for ${groupName}?`)) {
+                showNotification(`Transaction for ${groupName} has been cancelled.`);
             }
-        }
-        
-        function confirmPayment(button) {
-            const card = button.closest('.transaction-card');
-            card.style.opacity = '0.5';
-            showNotification('Payment confirmed!');
-            
-            // Remove after a delay
-            setTimeout(() => {
-                card.remove();
-            }, 1000);
-        }
-        
-        function cancelTransaction(button) {
-            const card = button.closest('.transaction-card');
-            card.style.opacity = '0.5';
-            showNotification('Transaction cancelled!');
-            
-            // Remove after a delay
-            setTimeout(() => {
-                card.remove();
-            }, 1000);
         }
         
         function showNotification(message) {
@@ -636,18 +1054,6 @@
                 notification.classList.remove('show');
             }, 3000);
         }
-        
-        // Set current date and time as default
-        window.onload = function() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            
-            document.getElementById('transaction-date').value = `${year}-${month}-${day}T${hours}:${minutes}`;
-        };
     </script>
 </body>
 </html>
