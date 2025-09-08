@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeleGroup Marketplace - Complete Transaction Flow</title>
+    <title>TeleGroup Marketplace - Complete Solution</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -18,18 +18,6 @@
             color: #fff;
             min-height: 100vh;
             padding: 20px;
-        }
-        
-        .admin-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #ff9800;
-            color: #000;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
         }
         
         .container {
@@ -47,38 +35,21 @@
             position: relative;
         }
         
-        .admin-profile {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        
-        .admin-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: #fff;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 15px;
-            font-size: 24px;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
-        .admin-info {
-            text-align: left;
-        }
-        
-        .admin-name {
-            font-weight: 600;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .admin-id {
-            font-size: 12px;
-            opacity: 0.9;
+        .logo i {
+            font-size: 32px;
+            color: #2481cc;
         }
         
         h1 {
@@ -92,7 +63,19 @@
             opacity: 0.9;
         }
         
-        .admin-stats {
+        .role-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff9800;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .stats-row {
             display: flex;
             padding: 15px;
             background: rgba(36, 129, 204, 0.15);
@@ -555,6 +538,28 @@
             cursor: pointer;
         }
         
+        .login-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .login-btn {
+            background: #2481cc;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 18px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        .admin-only {
+            display: none;
+        }
+        
         @media (max-width: 480px) {
             .tab {
                 padding: 14px 16px;
@@ -566,23 +571,13 @@
                 flex-direction: column;
             }
             
-            .admin-stats {
+            .stats-row {
                 flex-direction: column;
                 gap: 15px;
             }
             
             .stat {
                 padding: 8px;
-            }
-            
-            .admin-profile {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .admin-avatar {
-                margin-right: 0;
-                margin-bottom: 10px;
             }
             
             .detail-row {
@@ -611,330 +606,280 @@
     </style>
 </head>
 <body>
-    <div class="admin-badge">ADMIN MODE</div>
-    
     <div class="container">
         <div class="header">
-            <div class="admin-profile">
-                <div class="admin-avatar">
-                    <i class="fas fa-crown"></i>
-                </div>
-                <div class="admin-info">
-                    <div class="admin-name">❥⏤͟𓆩〭⃛〬𝐈𝛕ᷟ͢𝚣⃪ꙴ𝆺꯭𝅥𝆺꯭𝅥༎ࠫs̷e̷i̷d̷ k̷e̷d̷i̷r̷༎꯭ࠫ𝆺꯭𝅥:🧸⃝⃪⃕.⃝⃡︎ ─⃜͢͢</div>
-                    <div class="admin-id">ID: 6726975094</div>
-                </div>
+            <div class="logo">
+                <i class="fab fa-telegram"></i>
             </div>
             <h1>TeleGroup Marketplace</h1>
-            <div class="subtitle">Complete Transaction Flow • Admin Control</div>
+            <div class="subtitle">Complete Transaction Flow • Secure Group Trading</div>
+            <div class="role-badge" id="role-badge">NOT LOGGED IN</div>
         </div>
         
-        <div class="admin-stats">
-            <div class="stat">
-                <div class="stat-value">12,540 ETB</div>
-                <div class="stat-label">Total Revenue</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">18</div>
-                <div class="stat-label">Groups Sold</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">5</div>
-                <div class="stat-label">Pending</div>
+        <div id="login-section" class="login-section">
+            <h2>Connect to Telegram</h2>
+            <p>You need to connect your Telegram account to use the marketplace</p>
+            <button class="login-btn" onclick="loginWithTelegram()">
+                <i class="fab fa-telegram"></i> Login with Telegram
+            </button>
+            <p>Or select your role:</p>
+            <div class="control-buttons">
+                <button class="control-btn btn-success" onclick="setRole('admin')">I'm Admin</button>
+                <button class="control-btn" onclick="setRole('user')">I'm User</button>
             </div>
         </div>
         
-        <div class="nav-tabs">
-            <div class="tab active" data-tab="marketplace">Marketplace</div>
-            <div class="tab" data-tab="pending">Pending</div>
-            <div class="tab" data-tab="transactions">Transactions</div>
-            <div class="tab" data-tab="instructions">Instructions</div>
-        </div>
-        
-        <div class="content">
-            <!-- Marketplace Section -->
-            <div class="section active" id="marketplace-section">
-                <h2>Available Groups</h2>
-                
-                <div class="group-card">
-                    <div class="group-header">
-                        <div class="group-name">Crypto Traders 2023</div>
-                        <div class="group-price">2,500 ETB</div>
-                    </div>
-                    <div class="group-details">
-                        Active crypto trading group with 12.8K members. High engagement rate.
-                    </div>
-                    <div class="group-meta">
-                        <div>Members: 12,800</div>
-                        <div>Created: Feb 2023</div>
-                        <div>Status: <span style="color: #4caf50;">Available</span></div>
-                    </div>
-                    <button class="btn btn-wait" onclick="initiatePurchase('Crypto Traders 2023', 2500)">Please Wait For Me</button>
+        <div id="app-content" style="display: none;">
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">12,540 ETB</div>
+                    <div class="stat-label">Total Revenue</div>
                 </div>
-                
-                <div class="group-card">
-                    <div class="group-header">
-                        <div class="group-name">NFT Investors</div>
-                        <div class="group-price">1,800 ETB</div>
-                    </div>
-                    <div class="group-details">
-                        NFT discussion and investment group. 8.4K members with daily activity.
-                    </div>
-                    <div class="group-meta">
-                        <div>Members: 8,400</div>
-                        <div>Created: Nov 2022</div>
-                        <div>Status: <span style="color: #4caf50;">Available</span></div>
-                    </div>
-                    <button class="btn btn-wait" onclick="initiatePurchase('NFT Investors', 1800)">Please Wait For Me</button>
+                <div class="stat">
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">Groups Sold</div>
                 </div>
-                
-                <div class="group-card">
-                    <div class="group-header">
-                        <div class="group-name">Tech News EN</div>
-                        <div class="group-price">1,500 ETB</div>
-                    </div>
-                    <div class="group-details">
-                        Technology news channel with 15.2K subscribers. Established in 2022.
-                    </div>
-                    <div class="group-meta">
-                        <div>Members: 15,200</div>
-                        <div>Created: Mar 2022</div>
-                        <div>Status: <span style="color: #4caf50;">Available</span></div>
-                    </div>
-                    <button class="btn btn-wait" onclick="initiatePurchase('Tech News EN', 1500)">Please Wait For Me</button>
+                <div class="stat">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Pending</div>
                 </div>
             </div>
             
-            <!-- Pending Transactions Section -->
-            <div class="section" id="pending-section">
-                <h2>Pending Transactions</h2>
-                
-                <div class="transaction-status">
-                    <div class="status-step status-active">
-                        <div class="status-icon"><i class="fas fa-handshake"></i></div>
-                        <div class="status-label">Agreement</div>
-                    </div>
-                    <div class="status-step">
-                        <div class="status-icon"><i class="fas fa-exchange-alt"></i></div>
-                        <div class="status-label">Transfer</div>
-                    </div>
-                    <div class="status-step">
-                        <div class="status-icon"><i class="fas fa-screenshot"></i></div>
-                        <div class="status-label">Screenshot</div>
-                    </div>
-                    <div class="status-step">
-                        <div class="status-icon"><i class="fas fa-money-check"></i></div>
-                        <div class="status-label">Payment</div>
-                    </div>
-                    <div class="status-step">
-                        <div class="status-icon"><i class="fas fa-check-circle"></i></div>
-                        <div class="status-label">Complete</div>
-                    </div>
-                </div>
-                
-                <div class="group-card pending-transaction">
-                    <div class="group-header">
-                        <div class="group-name">Stock Market Signals</div>
-                        <div class="group-price">3,000 ETB</div>
-                    </div>
-                    <div class="group-details">
-                        Premium stock trading signals group with 5.1K active traders.
-                    </div>
-                    <div class="buyer-info">
-                        <strong>Buyer:</strong> @ethio_trader<br>
-                        <strong>Telegram:</strong> <a href="https://t.me/ethio_trader">Contact Buyer</a><br>
-                        <strong>Status:</strong> Awaiting Ownership Transfer<br>
-                        <strong>Started:</strong> 2 days ago
-                    </div>
-                    
-                    <div class="upload-area">
-                        <div class="upload-icon">
-                            <i class="fas fa-camera"></i>
-                        </div>
-                        <div class="upload-text">Upload Ownership Transfer Screenshot</div>
-                        <div class="upload-subtext">Show proof of group transfer</div>
-                        <input type="file" id="transfer-screenshot" accept="image/*">
-                    </div>
-                    
-                    <div class="control-buttons">
-                        <button class="control-btn btn-success" onclick="confirmTransfer('Stock Market Signals')">Confirm Transfer</button>
-                        <button class="control-btn btn-warning" onclick="messageBuyer('Stock Market Signals')">Message Buyer</button>
-                        <button class="control-btn btn-danger" onclick="cancelTransaction('Stock Market Signals')">Cancel Transaction</button>
-                    </div>
-                </div>
-                
-                <div class="group-card pending-transaction">
-                    <div class="group-header">
-                        <div class="group-name">Amharic Memes</div>
-                        <div class="group-price">1,200 ETB</div>
-                    </div>
-                    <div class="group-details">
-                        Popular Amharic meme channel with 25.4K subscribers.
-                    </div>
-                    <div class="buyer-info">
-                        <strong>Buyer:</strong> @addis_funny<br>
-                        <strong>Telegram:</strong> <a href="https://t.me/addis_funny">Contact Buyer</a><br>
-                        <strong>Status:</strong> Awaiting Payment<br>
-                        <strong>Payment Info:</strong> +251 912 345 678
-                    </div>
-                    
-                    <div class="upload-area">
-                        <div class="upload-icon">
-                            <i class="fas fa-money-check"></i>
-                        </div>
-                        <div class="upload-text">Upload Payment Screenshot</div>
-                        <div class="upload-subtext">Show proof of payment to seller</div>
-                        <input type="file" id="payment-screenshot" accept="image/*">
-                    </div>
-                    
-                    <div class="control-buttons">
-                        <button class="control-btn btn-success" onclick="confirmPayment('Amharic Memes')">Confirm Payment</button>
-                        <button class="control-btn btn-warning" onclick="messageSeller('Amharic Memes')">Message Seller</button>
-                    </div>
-                </div>
+            <div class="nav-tabs">
+                <div class="tab active" data-tab="marketplace">Marketplace</div>
+                <div class="tab" data-tab="pending">Pending</div>
+                <div class="tab" data-tab="transactions">Transactions</div>
+                <div class="tab admin-only" data-tab="admin">Admin</div>
             </div>
             
-            <!-- Completed Transactions Section -->
-            <div class="section" id="transactions-section">
-                <h2>Completed Transactions</h2>
-                
-                <div class="transaction-card">
-                    <div class="transaction-header">
-                        <div class="transaction-amount">+2,500 ETB</div>
-                        <div class="transaction-date">2025/09/10 14:22:36</div>
-                    </div>
-                    <div class="transaction-details">
-                        <div class="detail-row">
-                            <div class="detail-label">Group:</div>
-                            <div class="detail-value">Crypto Traders 2023</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Buyer:</div>
-                            <div class="detail-value">@ethio_blockchain</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Status:</div>
-                            <div class="detail-value" style="color: #4caf50;">Completed</div>
-                        </div>
-                    </div>
-                    <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshots</button>
-                    <img src="https://via.placeholder.com/300x500/1a2e44/ffffff?text=Transaction+Screenshot" class="transaction-image" alt="Transaction screenshot">
+            <div class="content">
+                <!-- Marketplace Section -->
+                <div class="section active" id="marketplace-section">
+                    <h2>Available Groups</h2>
                     
-                    <div class="comments-section">
-                        <h4>Seller Feedback</h4>
-                        <div class="comment">
-                            <div class="comment-header">
-                                <span>@ethio_blockchain</span>
-                                <span>2 days ago</span>
-                            </div>
-                            <div class="comment-text">
-                                Smooth transaction, received payment quickly! 👍
-                            </div>
-                            <div class="reaction">✅</div>
-                            <div class="reaction">❤️</div>
+                    <div class="group-card">
+                        <div class="group-header">
+                            <div class="group-name">Crypto Traders 2023</div>
+                            <div class="group-price">2,500 ETB</div>
                         </div>
-                        
-                        <div class="form-group">
-                            <textarea placeholder="Add a comment..."></textarea>
-                            <button class="btn" style="margin-top: 10px;">Post Comment</button>
+                        <div class="group-details">
+                            Active crypto trading group with 12.8K members. High engagement rate.
                         </div>
+                        <div class="group-meta">
+                            <div>Members: 12,800</div>
+                            <div>Created: Feb 2023</div>
+                            <div>Status: <span style="color: #4caf50;">Available</span></div>
+                        </div>
+                        <button class="btn btn-wait" onclick="initiatePurchase('Crypto Traders 2023', 2500)">Please Wait For Me</button>
+                    </div>
+                    
+                    <div class="group-card">
+                        <div class="group-header">
+                            <div class="group-name">NFT Investors</div>
+                            <div class="group-price">1,800 ETB</div>
+                        </div>
+                        <div class="group-details">
+                            NFT discussion and investment group. 8.4K members with daily activity.
+                        </div>
+                        <div class="group-meta">
+                            <div>Members: 8,400</div>
+                            <div>Created: Nov 2022</div>
+                            <div>Status: <span style="color: #4caf50;">Available</span></div>
+                        </div>
+                        <button class="btn btn-wait" onclick="initiatePurchase('NFT Investors', 1800)">Please Wait For Me</button>
+                    </div>
+                    
+                    <div class="group-card">
+                        <div class="group-header">
+                            <div class="group-name">Tech News EN</div>
+                            <div class="group-price">1,500 ETB</div>
+                        </div>
+                        <div class="group-details">
+                            Technology news channel with 15.2K subscribers. Established in 2022.
+                        </div>
+                        <div class="group-meta">
+                            <div>Members: 15,200</div>
+                            <div>Created: Mar 2022</div>
+                            <div>Status: <span style="color: #4caf50;">Available</span></div>
+                        </div>
+                        <button class="btn btn-wait" onclick="initiatePurchase('Tech News EN', 1500)">Please Wait For Me</button>
                     </div>
                 </div>
                 
-                <div class="transaction-card">
-                    <div class="transaction-header">
-                        <div class="transaction-amount">+1,800 ETB</div>
-                        <div class="transaction-date">2025/09/08 11:15:20</div>
-                    </div>
-                    <div class="transaction-details">
-                        <div class="detail-row">
-                            <div class="detail-label">Group:</div>
-                            <div class="detail-value">NFT Investors</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Buyer:</div>
-                            <div class="detail-value">@addis_nft</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="detail-label">Status:</div>
-                            <div class="detail-value" style="color: #4caf50;">Completed</div>
-                        </div>
-                    </div>
-                    <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshots</button>
-                    <img src="https://via.placeholder.com/300x500/1a2e44/ffffff?text=Transaction+Screenshot" class="transaction-image" alt="Transaction screenshot">
+                <!-- Pending Transactions Section -->
+                <div class="section" id="pending-section">
+                    <h2>Pending Transactions</h2>
                     
-                    <div class="comments-section">
-                        <h4>Seller Feedback</h4>
-                        <div class="comment">
-                            <div class="comment-header">
-                                <span>@addis_nft</span>
-                                <span>4 days ago</span>
-                            </div>
-                            <div class="comment-text">
-                                Great service, would buy again! The group is exactly as described.
-                            </div>
-                            <div class="reaction">✅</div>
-                            <div class="reaction">🔥</div>
+                    <div class="transaction-status">
+                        <div class="status-step status-active">
+                            <div class="status-icon"><i class="fas fa-handshake"></i></div>
+                            <div class="status-label">Agreement</div>
                         </div>
-                        
-                        <div class="form-group">
-                            <textarea placeholder="Add a comment..."></textarea>
-                            <button class="btn" style="margin-top: 10px;">Post Comment</button>
+                        <div class="status-step">
+                            <div class="status-icon"><i class="fas fa-exchange-alt"></i></div>
+                            <div class="status-label">Transfer</div>
+                        </div>
+                        <div class="status-step">
+                            <div class="status-icon"><i class="fas fa-screenshot"></i></div>
+                            <div class="status-label">Screenshot</div>
+                        </div>
+                        <div class="status-step">
+                            <div class="status-icon"><i class="fas fa-money-check"></i></div>
+                            <div class="status-label">Payment</div>
+                        </div>
+                        <div class="status-step">
+                            <div class="status-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="status-label">Complete</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Instructions Section -->
-            <div class="section" id="instructions-section">
-                <h2>Transaction Instructions</h2>
-                
-                <div class="admin-panel">
-                    <div class="panel-title">Complete Transaction Flow</div>
                     
-                    <div class="group-details">
-                        <ol style="padding-left: 20px; margin-bottom: 20px;">
-                            <li style="margin-bottom: 15px;">
-                                <strong>Agreement:</strong> Buyer clicks "Please Wait For Me" to agree to purchase at the listed price.
-                            </li>
-                            <li style="margin-bottom: 15px;">
-                                <strong>Transfer:</strong> Buyer transfers group ownership using admin's username (@yourusername) or provided username.
-                            </li>
-                            <li style="margin-bottom: 15px;">
-                                <strong>Screenshot:</strong> Buyer takes screenshot of successful transfer and sends it via this mini app.
-                            </li>
-                            <li style="margin-bottom: 15px;">
-                                <strong>Verification:</strong> Admin verifies the ownership transfer and group details.
-                            </li>
-                            <li style="margin-bottom: 15px;">
-                                <strong>Payment:</strong> Admin sends payment to seller via provided phone number or bank account.
-                            </li>
-                            <li style="margin-bottom: 15px;">
-                                <strong>Confirmation:</strong> Admin posts payment screenshot in the transaction thread.
-                            </li>
-                            <li style="margin-bottom: 15px;">
-                                <strong>Completion:</strong> Seller reacts to the post and confirms receipt of payment.
-                            </li>
-                        </ol>
-                        
+                    <div class="group-card pending-transaction">
+                        <div class="group-header">
+                            <div class="group-name">Stock Market Signals</div>
+                            <div class="group-price">3,000 ETB</div>
+                        </div>
+                        <div class="group-details">
+                            Premium stock trading signals group with 5.1K active traders.
+                        </div>
                         <div class="buyer-info">
-                            <strong>Admin Username:</strong> @goldpandaSupport<br>
-                            <strong>Admin ID:</strong> 6726975094<br>
-                            <strong>Payment Methods:</strong> Telebirr, Bank Transfer, CBE Birr
+                            <strong>Buyer:</strong> @ethio_trader<br>
+                            <strong>Telegram:</strong> <a href="https://t.me/ethio_trader">Contact Buyer</a><br>
+                            <strong>Status:</strong> Awaiting Ownership Transfer<br>
+                            <strong>Started:</strong> 2 days ago
+                        </div>
+                        
+                        <div class="upload-area" onclick="document.getElementById('transfer-screenshot').click()">
+                            <div class="upload-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="upload-text">Upload Ownership Transfer Screenshot</div>
+                            <div class="upload-subtext">Show proof of group transfer</div>
+                            <input type="file" id="transfer-screenshot" accept="image/*" style="display: none;">
+                        </div>
+                        
+                        <div class="control-buttons">
+                            <button class="control-btn btn-success" onclick="confirmTransfer('Stock Market Signals')">Confirm Transfer</button>
+                            <button class="control-btn btn-warning" onclick="messageBuyer('Stock Market Signals')">Message Buyer</button>
+                            <button class="control-btn btn-danger" onclick="cancelTransaction('Stock Market Signals')">Cancel Transaction</button>
                         </div>
                     </div>
                 </div>
                 
-                <div class="admin-panel">
-                    <div class="panel-title">Screenshot Guidelines</div>
+                <!-- Completed Transactions Section -->
+                <div class="section" id="transactions-section">
+                    <h2>Completed Transactions</h2>
                     
-                    <div class="group-details">
-                        <ul style="padding-left: 20px;">
-                            <li>Screenshots must clearly show the transfer confirmation</li>
-                            <li>Include both sender and receiver information in the screenshot</li>
-                            <li>Payment screenshots must show transaction ID and amount</li>
-                            <li>Blur or hide any sensitive personal information</li>
-                            <li>Ensure the screenshot is clear and readable</li>
-                        </ul>
+                    <div class="transaction-card">
+                        <div class="transaction-header">
+                            <div class="transaction-amount">+2,500 ETB</div>
+                            <div class="transaction-date">2025/09/10 14:22:36</div>
+                        </div>
+                        <div class="transaction-details">
+                            <div class="detail-row">
+                                <div class="detail-label">Group:</div>
+                                <div class="detail-value">Crypto Traders 2023</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Buyer:</div>
+                                <div class="detail-value">@ethio_blockchain</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Status:</div>
+                                <div class="detail-value" style="color: #4caf50;">Completed</div>
+                            </div>
+                        </div>
+                        <button class="view-screenshot" onclick="viewScreenshot(this)">View Screenshots</button>
+                        <img src="https://via.placeholder.com/300x150/1a2e44/ffffff?text=Transaction+Proof" class="transaction-image" alt="Transaction screenshot">
+                        
+                        <div class="comments-section">
+                            <h4>Seller Feedback</h4>
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span>@ethio_blockchain</span>
+                                    <span>2 days ago</span>
+                                </div>
+                                <div class="comment-text">
+                                    Smooth transaction, received payment quickly! 👍
+                                </div>
+                                <div class="reaction">✅</div>
+                                <div class="reaction">❤️</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <textarea placeholder="Add a comment..."></textarea>
+                                <button class="btn" style="margin-top: 10px;">Post Comment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Admin Section -->
+                <div class="section admin-only" id="admin-section">
+                    <h2>Admin Panel</h2>
+                    
+                    <div class="admin-panel">
+                        <div class="panel-title">Add New Group</div>
+                        
+                        <div class="form-group">
+                            <label for="group-name">Group Name</label>
+                            <input type="text" id="group-name" placeholder="Enter group name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="group-price">Price (ETB)</label>
+                            <input type="number" id="group-price" placeholder="Enter price in ETB">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="group-members">Number of Members</label>
+                            <input type="number" id="group-members" placeholder="Enter member count">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="group-desc">Description</label>
+                            <textarea id="group-desc" placeholder="Describe the group"></textarea>
+                        </div>
+                        
+                        <button class="btn btn-sold" onclick="addNewGroup()">Add Group to Marketplace</button>
+                    </div>
+                    
+                    <div class="admin-panel">
+                        <div class="panel-title">Transaction Management</div>
+                        
+                        <div class="transaction-card">
+                            <div class="transaction-header">
+                                <div class="transaction-amount">+1,200 ETB</div>
+                                <div class="transaction-date">Pending</div>
+                            </div>
+                            <div class="transaction-details">
+                                <div class="detail-row">
+                                    <div class="detail-label">Group:</div>
+                                    <div class="detail-value">Amharic Memes</div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Seller:</div>
+                                    <div class="detail-value">@addis_funny</div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="detail-label">Payment Info:</div>
+                                    <div class="detail-value">+251 912 345 678</div>
+                                </div>
+                            </div>
+                            
+                            <div class="upload-area" onclick="document.getElementById('payment-screenshot').click()">
+                                <div class="upload-icon">
+                                    <i class="fas fa-money-check"></i>
+                                </div>
+                                <div class="upload-text">Upload Payment Screenshot</div>
+                                <div class="upload-subtext">Show proof of payment to seller</div>
+                                <input type="file" id="payment-screenshot" accept="image/*" style="display: none;">
+                            </div>
+                            
+                            <div class="control-buttons">
+                                <button class="control-btn btn-success" onclick="confirmPayment('Amharic Memes')">Confirm Payment</button>
+                                <button class="control-btn btn-warning" onclick="messageSeller('Amharic Memes')">Message Seller</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -944,6 +889,71 @@
     <div class="notification" id="notification">Operation completed successfully!</div>
 
     <script>
+        // Global variables
+        let currentUser = null;
+        let userRole = null;
+        const adminUserId = '6726975094'; // Your admin user ID
+        
+        // Initialize the app
+        function initApp() {
+            // Check if user is already logged in (from localStorage)
+            const savedUser = localStorage.getItem('tg_user');
+            const savedRole = localStorage.getItem('tg_role');
+            
+            if (savedUser && savedRole) {
+                currentUser = JSON.parse(savedUser);
+                userRole = savedRole;
+                showAppContent();
+            }
+        }
+        
+        // Set user role (admin or user)
+        function setRole(role) {
+            userRole = role;
+            
+            // For demo purposes, create a mock user
+            currentUser = {
+                id: role === 'admin' ? adminUserId : '100000001',
+                username: role === 'admin' ? 'goldpandaSupport' : 'telegram_user',
+                first_name: role === 'admin' ? 'Seid Kedir' : 'Telegram User'
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('tg_user', JSON.stringify(currentUser));
+            localStorage.setItem('tg_role', userRole);
+            
+            showAppContent();
+        }
+        
+        // Show the main app content
+        function showAppContent() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            
+            // Update role badge
+            const roleBadge = document.getElementById('role-badge');
+            roleBadge.textContent = userRole === 'admin' ? 'ADMIN' : 'USER';
+            
+            // Show/hide admin elements
+            const adminElements = document.querySelectorAll('.admin-only');
+            adminElements.forEach(el => {
+                el.style.display = userRole === 'admin' ? 'block' : 'none';
+            });
+            
+            // If user is admin, switch to admin tab by default
+            if (userRole === 'admin') {
+                setTimeout(() => {
+                    document.querySelector('[data-tab="admin"]').click();
+                }, 500);
+            }
+        }
+        
+        // Login with Telegram (simulated)
+        function loginWithTelegram() {
+            // In a real app, this would open Telegram login
+            showNotification('In a real app, this would open Telegram login. For demo, please select a role.');
+        }
+        
         // Tab switching functionality
         const tabs = document.querySelectorAll('.tab');
         const sections = document.querySelectorAll('.section');
@@ -976,31 +986,9 @@
                 fileInput.click();
             });
             
-            area.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                area.style.background = 'rgba(255, 255, 255, 0.1)';
-                area.style.borderColor = '#2481cc';
-            });
-            
-            area.addEventListener('dragleave', () => {
-                area.style.background = 'rgba(255, 255, 255, 0.05)';
-                area.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            });
-            
-            area.addEventListener('drop', (e) => {
-                e.preventDefault();
-                area.style.background = 'rgba(255, 255, 255, 0.05)';
-                area.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                
-                if (e.dataTransfer.files.length) {
-                    fileInput.files = e.dataTransfer.files;
-                    showNotification('Screenshot uploaded successfully!');
-                }
-            });
-            
             fileInput.addEventListener('change', () => {
                 if (fileInput.files.length) {
-                    showNotification('Screenshot uploaded successfully!');
+                    showNotification('File uploaded successfully!');
                 }
             });
         });
@@ -1017,6 +1005,11 @@
         }
         
         function initiatePurchase(groupName, price) {
+            if (!currentUser) {
+                showNotification('Please login first');
+                return;
+            }
+            
             showNotification(`Initiating purchase of ${groupName} for ${price} ETB. Please transfer ownership to @goldpandaSupport`);
             
             // Switch to pending tab
@@ -1024,10 +1017,20 @@
         }
         
         function confirmTransfer(groupName) {
+            if (userRole !== 'admin') {
+                showNotification('Only admin can confirm transfers');
+                return;
+            }
+            
             showNotification(`Ownership of ${groupName} confirmed. Please proceed with payment to seller.`);
         }
         
         function confirmPayment(groupName) {
+            if (userRole !== 'admin') {
+                showNotification('Only admin can confirm payments');
+                return;
+            }
+            
             showNotification(`Payment for ${groupName} confirmed. Transaction completed successfully!`);
         }
         
@@ -1045,6 +1048,28 @@
             }
         }
         
+        function addNewGroup() {
+            if (userRole !== 'admin') {
+                showNotification('Only admin can add new groups');
+                return;
+            }
+            
+            const name = document.getElementById('group-name').value;
+            const price = document.getElementById('group-price').value;
+            
+            if (name && price) {
+                showNotification(`Added ${name} for ${price} ETB to marketplace`);
+                
+                // Clear form
+                document.getElementById('group-name').value = '';
+                document.getElementById('group-price').value = '';
+                document.getElementById('group-members').value = '';
+                document.getElementById('group-desc').value = '';
+            } else {
+                showNotification('Please fill in all required fields');
+            }
+        }
+        
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -1054,6 +1079,9 @@
                 notification.classList.remove('show');
             }, 3000);
         }
+        
+        // Initialize the app when page loads
+        window.onload = initApp;
     </script>
 </body>
 </html>
