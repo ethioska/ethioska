@@ -1,26 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Mini App Group Store</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Store - Login</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="login-container">
+    <div class="container">
         <h1>Welcome!</h1>
-        <select id="role-select">
+        <label for="role">Select Role:</label>
+        <select id="role">
             <option value="user">User</option>
             <option value="admin">Admin</option>
         </select>
+
         <div id="admin-login" style="display: none;">
-            <input type="password" id="admin-password" placeholder="Enter Admin Password">
+          <label for="admin-code">Admin Code</label>
+          <input type="text" id="admin-code">
         </div>
+
         <div id="user-login" style="display: none;">
-            <input type="text" id="user-code" placeholder="Enter User Code">
-            <input type="tel" id="user-phone" placeholder="Enter User Phone Number">
+            <label for="username">Your Name:</label>
+            <input type="text" id="username">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber">
+            <label for="user-code">Code:</label>
+            <input type="text" id="user-code">
+
         </div>
+
         <button id="login-button">Login</button>
-        <div id="error-message" class="error"></div>
     </div>
 
     <script src="script.js"></script>
